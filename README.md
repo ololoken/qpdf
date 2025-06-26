@@ -3,6 +3,17 @@
 [![qpdf Build](https://github.com/qpdf/qpdf/workflows/QPDF%20Build/badge.svg)](https://github.com/qpdf/qpdf/actions)
 [![Documentation Status](https://readthedocs.org/projects/qpdf/badge/?version=latest)](https://qpdf.readthedocs.io/en/latest/?badge=latest)
 
+This is wasm32 port of qpdf tool.
+
+To create own build use following command
+```shell
+docker run --rm -v $(pwd):/src emscripten/emsdk:latest sh -c 'git config --global --add safe.directory "*" && mkdir -p build && cd build && emcmake cmake ../ -DBUILD_SHARED_LIBS=OFF -DQTEST_COLOR=OFF -DBUILD_DOC_PDF=OFF -DSKIP_OS_SECURE_RANDOM=ON && emmake make'
+```
+
+Build artifacts can be found in `artifacts` folder.
+
+//todo: add usage examples
+
 qpdf is a command-line tool and C++ library that performs content-preserving transformations on PDF files. It supports
 linearization, encryption, and numerous other features. It can also be used for splitting and merging files, creating
 PDF files (but you have to supply all the content yourself), and inspecting files for study or analysis. qpdf does not

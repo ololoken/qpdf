@@ -65,6 +65,21 @@ install(TARGETS qpdf fix-qdf
   TYPE RUNTIME
   COMPONENT ${COMPONENT_CLI})
 
+if (CMAKE_SYSTEM_NAME MATCHES "Emscripten")
+  set(USE_FLAGS "--use-port=libjpeg")
+
+  set_target_properties(qpdf PROPERTIES
+          COMPILE_FLAGS "${USE_FLAGS}"
+          LINK_FLAGS "${USE_FLAGS} \
+              -sALLOW_MEMORY_GROWTH \
+              -sENVIRONMENT=web \
+              -sMODULARIZE \
+              -sEXPORT_ALL -sEXPORTED_RUNTIME_METHODS=callMain,addRunDependency,removeRunDependency \
+              -sEXIT_RUNTIME"
+          SUFFIX ".js"
+  )
+endif ()
+
 if(MINGW)
   # For MSVC, including InstallRequiredSystemLibraries in the
   # top-level CMakeLists.txt is sufficient. For mingw, we have to copy
